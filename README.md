@@ -6,6 +6,26 @@
 
 A terminal shell switcher using direnv to manage workspace-specific environment variables and tool configurations.
 
+## Installation
+
+### Homebrew (macOS/Linux)
+
+```bash
+brew install mindmorass/shell-profiler/profile
+```
+
+### From Source
+
+```bash
+git clone https://github.com/mindmorass/shell-profiler.git
+cd shell-profiler
+make build
+```
+
+### From Releases
+
+Download a pre-built binary from the [releases page](https://github.com/mindmorass/shell-profiler/releases) for your platform.
+
 ## Overview
 
 This system allows you to maintain separate profiles for different workspaces, each with their own:

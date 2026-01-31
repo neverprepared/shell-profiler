@@ -9,8 +9,8 @@ permissions:
   contents: write
 
 jobs:
-  release:
-    name: Create Release
+  build:
+    name: Build ${{ matrix.goos }}-${{ matrix.goarch }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -45,14 +45,16 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
           CGO_ENABLED: 0
         run: |
-          BINARY_NAME="profile-${{ steps.version.outputs.VERSION }}-${{ matrix.goos }}-${{ matrix.goarch }}"
-          go build -v -ldflags="-s -w -X main.Version=${{ steps.version.outputs.VERSION }}" -o "${BINARY_NAME}" ./cmd/profile
+          ARCHIVE_NAME="profile-${{ steps.version.outputs.VERSION }}-${{ matrix.goos }}-${{ matrix.goarch }}"
 
-          # Create tarball
-          tar -czf "${BINARY_NAME}.tar.gz" "${BINARY_NAME}"
+          # Build binary as 'profile' (Homebrew expects this name inside the tarball)
+          go build -v -ldflags="-s -w -X main.Version=${{ steps.version.outputs.VERSION }}" -o profile ./cmd/profile
+
+          # Create tarball with versioned archive name but plain binary name
+          tar -czf "${ARCHIVE_NAME}.tar.gz" profile
 
           # Generate checksum
-          sha256sum "${BINARY_NAME}.tar.gz" > "${BINARY_NAME}.tar.gz.sha256"
+          sha256sum "${ARCHIVE_NAME}.tar.gz" > "${ARCHIVE_NAME}.tar.gz.sha256"
 
       - name: Upload release artifacts
         uses: softprops/action-gh-release@v1
@@ -65,3 +67,59 @@ jobs:
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload checksum artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: checksum-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: "*.sha256"
+
+  update-formula:
+    name: Update Homebrew Formula
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download all checksums
+        uses: actions/download-artifact@v4
+        with:
+          path: checksums
+          pattern: checksum-*
+
+      - name: Get version from tag
+        id: version
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Update formula
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+
+          # Extract SHA256 values from checksum files
+          DARWIN_ARM64=$(awk '{print $1}' checksums/checksum-darwin-arm64/*.sha256)
+          DARWIN_AMD64=$(awk '{print $1}' checksums/checksum-darwin-amd64/*.sha256)
+          LINUX_ARM64=$(awk '{print $1}' checksums/checksum-linux-arm64/*.sha256)
+          LINUX_AMD64=$(awk '{print $1}' checksums/checksum-linux-amd64/*.sha256)
+
+          # Update version
+          sed -i "s/version \".*\"/version \"${VERSION}\"/" Formula/profile.rb
+
+          # Update SHA256 values using comment markers
+          sed -i "s/sha256 \".*\" # darwin-arm64/sha256 \"${DARWIN_ARM64}\" # darwin-arm64/" Formula/profile.rb
+          sed -i "s/sha256 \".*\" # darwin-amd64/sha256 \"${DARWIN_AMD64}\" # darwin-amd64/" Formula/profile.rb
+          sed -i "s/sha256 \".*\" # linux-arm64/sha256 \"${LINUX_ARM64}\" # linux-arm64/" Formula/profile.rb
+          sed -i "s/sha256 \".*\" # linux-amd64/sha256 \"${LINUX_AMD64}\" # linux-amd64/" Formula/profile.rb
+
+      - name: Commit and push formula update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/profile.rb
+          git diff --cached --quiet || git commit -m "formula: update to v${{ steps.version.outputs.VERSION }}"
+          git push

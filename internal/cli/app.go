@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/mindmorass/shell-profile-manager/internal/commands"
-	"github.com/mindmorass/shell-profile-manager/internal/profile"
-	"github.com/mindmorass/shell-profile-manager/internal/ui"
+	"github.com/neverprepared/shell-profile-manager/internal/commands"
+	"github.com/neverprepared/shell-profile-manager/internal/profile"
+	"github.com/neverprepared/shell-profile-manager/internal/ui"
 )
 
 type App struct {

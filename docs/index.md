@@ -10,10 +10,10 @@ A terminal shell switcher using [direnv](https://direnv.net/) to manage workspac
 ## Install
 
 ```bash
-brew install mindmorass/shell-profiler/profile
+brew install neverprepared/shell-profiler/profile
 ```
 
-Or download a binary from the [releases page](https://github.com/mindmorass/shell-profiler/releases).
+Or download a binary from the [releases page](https://github.com/neverprepared/shell-profiler/releases).
 
 ## Quick Start
 
@@ -63,8 +63,8 @@ This lets you seamlessly switch between personal, work, and client projects with
 | [Installation](INSTALL.md) | direnv setup and shell hook configuration |
 | [Quick Reference](QUICKSTART.md) | Common workflows and commands |
 | [Project Summary](PROJECT-SUMMARY.md) | Architecture and technical overview |
-| [Full README](https://github.com/mindmorass/shell-profiler#readme) | Complete reference documentation |
+| [Full README](https://github.com/neverprepared/shell-profiler#readme) | Complete reference documentation |
 
 ## Source
 
-[github.com/mindmorass/shell-profiler](https://github.com/mindmorass/shell-profiler)
+[github.com/neverprepared/shell-profiler](https://github.com/neverprepared/shell-profiler)

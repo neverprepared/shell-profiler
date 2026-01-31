@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mindmorass/shell-profile-manager/internal/ui"
+	"github.com/neverprepared/shell-profile-manager/internal/ui"
 )
 
 type DeleteOptions struct {

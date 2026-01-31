@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/mindmorass/shell-profile-manager/internal/ui"
+	"github.com/neverprepared/shell-profile-manager/internal/ui"
 )
 
 type DotfilesOptions struct {

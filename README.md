@@ -1,8 +1,8 @@
 # Workspace Profile Switcher
 
-[![CI](https://github.com/mindmorass/shell-profile-manager/actions/workflows/ci.yml/badge.svg)](https://github.com/mindmorass/shell-profile-manager/actions/workflows/ci.yml)
-[![Release](https://github.com/mindmorass/shell-profile-manager/actions/workflows/release.yml/badge.svg)](https://github.com/mindmorass/shell-profile-manager/actions/workflows/release.yml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/mindmorass/shell-profile-manager)](https://goreportcard.com/report/github.com/mindmorass/shell-profile-manager)
+[![CI](https://github.com/neverprepared/shell-profile-manager/actions/workflows/ci.yml/badge.svg)](https://github.com/neverprepared/shell-profile-manager/actions/workflows/ci.yml)
+[![Release](https://github.com/neverprepared/shell-profile-manager/actions/workflows/release.yml/badge.svg)](https://github.com/neverprepared/shell-profile-manager/actions/workflows/release.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/neverprepared/shell-profile-manager)](https://goreportcard.com/report/github.com/neverprepared/shell-profile-manager)
 
 A terminal shell switcher using direnv to manage workspace-specific environment variables and tool configurations.
 
@@ -11,20 +11,20 @@ A terminal shell switcher using direnv to manage workspace-specific environment 
 ### Homebrew (macOS/Linux)
 
 ```bash
-brew install mindmorass/shell-profiler/profile
+brew install neverprepared/shell-profiler/profile
 ```
 
 ### From Source
 
 ```bash
-git clone https://github.com/mindmorass/shell-profiler.git
+git clone https://github.com/neverprepared/shell-profiler.git
 cd shell-profiler
 make build
 ```
 
 ### From Releases
 
-Download a pre-built binary from the [releases page](https://github.com/mindmorass/shell-profiler/releases) for your platform.
+Download a pre-built binary from the [releases page](https://github.com/neverprepared/shell-profiler/releases) for your platform.
 
 ## Overview
 

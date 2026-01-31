@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mindmorass/shell-profile-manager/internal/cli"
-	"github.com/mindmorass/shell-profile-manager/internal/config"
+	"github.com/neverprepared/shell-profile-manager/internal/cli"
+	"github.com/neverprepared/shell-profile-manager/internal/config"
 )
 
 func main() {

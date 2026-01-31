@@ -1,4 +1,4 @@
-module github.com/mindmorass/shell-profile-manager
+module github.com/neverprepared/shell-profile-manager
 
 go 1.21
 

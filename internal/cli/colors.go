@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"github.com/mindmorass/shell-profile-manager/internal/ui"
+	"github.com/neverprepared/shell-profile-manager/internal/ui"
 )
 
 // Re-export color constants and functions for convenience

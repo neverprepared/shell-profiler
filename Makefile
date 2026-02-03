@@ -2,15 +2,15 @@
 
 # Build the Go binary
 build:
-	go build -o profile ./cmd/profile
+	go build -o shell-profiler ./cmd/shell-profiler
 
 # Install the binary to the workspace root
 install: build
-	cp profile $(shell pwd)/profile
+	cp shell-profiler $(shell pwd)/shell-profiler
 
 # Clean build artifacts
 clean:
-	rm -f profile
+	rm -f shell-profiler
 	go clean
 
 # Run tests
@@ -19,5 +19,5 @@ test:
 
 # Run the binary directly
 run:
-	go run ./cmd/profile
+	go run ./cmd/shell-profiler
 

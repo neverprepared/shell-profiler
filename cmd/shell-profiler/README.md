@@ -9,7 +9,7 @@ This is the Go implementation of the workspace profile manager. It provides the 
 make build
 
 # Or directly with go
-go build -o profile ./cmd/profile
+go build -o shell-profiler ./cmd/shell-profiler
 
 # Install to workspace root
 make install
@@ -22,7 +22,7 @@ make install
 make run
 
 # Or
-go run ./cmd/profile
+go run ./cmd/shell-profiler
 
 # Run tests
 make test
@@ -32,7 +32,7 @@ make test
 
 The Go implementation is structured as follows:
 
-- `cmd/profile/` - Main entry point
+- `cmd/shell-profiler/` - Main entry point
 - `internal/cli/` - CLI command handling and routing
 - `internal/profile/` - Profile management logic (info, status)
 - `internal/scripts/` - Script execution wrapper (delegates to shell scripts)

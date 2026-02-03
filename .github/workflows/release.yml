@@ -45,13 +45,13 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
           CGO_ENABLED: 0
         run: |
-          ARCHIVE_NAME="profile-${{ steps.version.outputs.VERSION }}-${{ matrix.goos }}-${{ matrix.goarch }}"
+          ARCHIVE_NAME="shell-profiler-${{ steps.version.outputs.VERSION }}-${{ matrix.goos }}-${{ matrix.goarch }}"
 
-          # Build binary as 'profile' (Homebrew expects this name inside the tarball)
-          go build -v -ldflags="-s -w -X main.Version=${{ steps.version.outputs.VERSION }}" -o profile ./cmd/profile
+          # Build binary as 'shell-profiler' (Homebrew expects this name inside the tarball)
+          go build -v -ldflags="-s -w -X main.Version=${{ steps.version.outputs.VERSION }}" -o shell-profiler ./cmd/shell-profiler
 
           # Create tarball with versioned archive name but plain binary name
-          tar -czf "${ARCHIVE_NAME}.tar.gz" profile
+          tar -czf "${ARCHIVE_NAME}.tar.gz" shell-profiler
 
           # Generate checksum
           sha256sum "${ARCHIVE_NAME}.tar.gz" > "${ARCHIVE_NAME}.tar.gz.sha256"
@@ -60,8 +60,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            profile-${{ steps.version.outputs.VERSION }}-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
-            profile-${{ steps.version.outputs.VERSION }}-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz.sha256
+            shell-profiler-${{ steps.version.outputs.VERSION }}-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz
+            shell-profiler-${{ steps.version.outputs.VERSION }}-${{ matrix.goos }}-${{ matrix.goarch }}.tar.gz.sha256
           draft: false
           prerelease: false
           generate_release_notes: true
@@ -108,18 +108,40 @@ jobs:
           LINUX_AMD64=$(awk '{print $1}' checksums/checksum-linux-amd64/*.sha256)
 
           # Update version
-          sed -i "s/version \".*\"/version \"${VERSION}\"/" Formula/profile.rb
+          sed -i "s/version \".*\"/version \"${VERSION}\"/" Formula/shell-profiler.rb
 
           # Update SHA256 values using comment markers
-          sed -i "s/sha256 \".*\" # darwin-arm64/sha256 \"${DARWIN_ARM64}\" # darwin-arm64/" Formula/profile.rb
-          sed -i "s/sha256 \".*\" # darwin-amd64/sha256 \"${DARWIN_AMD64}\" # darwin-amd64/" Formula/profile.rb
-          sed -i "s/sha256 \".*\" # linux-arm64/sha256 \"${LINUX_ARM64}\" # linux-arm64/" Formula/profile.rb
-          sed -i "s/sha256 \".*\" # linux-amd64/sha256 \"${LINUX_AMD64}\" # linux-amd64/" Formula/profile.rb
+          sed -i "s/sha256 \".*\" # darwin-arm64/sha256 \"${DARWIN_ARM64}\" # darwin-arm64/" Formula/shell-profiler.rb
+          sed -i "s/sha256 \".*\" # darwin-amd64/sha256 \"${DARWIN_AMD64}\" # darwin-amd64/" Formula/shell-profiler.rb
+          sed -i "s/sha256 \".*\" # linux-arm64/sha256 \"${LINUX_ARM64}\" # linux-arm64/" Formula/shell-profiler.rb
+          sed -i "s/sha256 \".*\" # linux-amd64/sha256 \"${LINUX_AMD64}\" # linux-amd64/" Formula/shell-profiler.rb
 
       - name: Commit and push formula update
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Formula/profile.rb
+          git add Formula/shell-profiler.rb
           git diff --cached --quiet || git commit -m "formula: update to v${{ steps.version.outputs.VERSION }}"
+          git push
+
+      - name: Sync formula to homebrew tap
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Clone the tap repo
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/neverprepared/homebrew-shell-profiler.git /tmp/tap
+
+          # Copy updated formula
+          cp Formula/shell-profiler.rb /tmp/tap/Formula/shell-profiler.rb
+
+          # Remove old formula if it exists
+          rm -f /tmp/tap/Formula/profile.rb
+
+          # Commit and push
+          cd /tmp/tap
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "formula: update shell-profiler to v${{ steps.version.outputs.VERSION }}"
           git push

@@ -71,10 +71,10 @@ jobs:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
         run: |
-          go build -v -o profile-${{ matrix.goos }}-${{ matrix.goarch }} ./cmd/profile
+          go build -v -o shell-profiler-${{ matrix.goos }}-${{ matrix.goarch }} ./cmd/shell-profiler
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: profile-${{ matrix.goos }}-${{ matrix.goarch }}
-          path: profile-${{ matrix.goos }}-${{ matrix.goarch }}
+          name: shell-profiler-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: shell-profiler-${{ matrix.goos }}-${{ matrix.goarch }}

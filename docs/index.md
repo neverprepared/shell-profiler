@@ -10,7 +10,7 @@ A terminal shell switcher using [direnv](https://direnv.net/) to manage workspac
 ## Install
 
 ```bash
-brew install neverprepared/shell-profiler/profile
+brew install neverprepared/shell-profiler/shell-profiler
 ```
 
 Or download a binary from the [releases page](https://github.com/neverprepared/shell-profiler/releases).
@@ -19,7 +19,7 @@ Or download a binary from the [releases page](https://github.com/neverprepared/s
 
 ```bash
 # Create a new workspace profile
-profile create my-project
+shell-profiler create my-project
 
 # Navigate to the profile directory
 cd profiles/my-project

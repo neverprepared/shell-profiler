@@ -11,7 +11,7 @@ A terminal shell switcher using direnv to manage workspace-specific environment 
 ### Homebrew (macOS/Linux)
 
 ```bash
-brew install neverprepared/shell-profiler/profile
+brew install neverprepared/shell-profiler/shell-profiler
 ```
 
 ### From Source
@@ -101,7 +101,7 @@ workspace-profiles/
 1. **Create a new workspace profile**:
 
    ```bash
-   profile create my-project
+   shell-profiler create my-project
    ```
 
 2. **Navigate to your workspace**:
@@ -231,7 +231,7 @@ The same pattern extends to any tool that reads environment variables. See `docs
 ### Using the Helper Script
 
 ```bash
-profile create my-profile
+shell-profiler create my-profile
 cd profiles/my-profile
 # Edit dotfiles/.gitconfig as needed
 direnv allow
@@ -268,9 +268,9 @@ git config user.name
 Create separate profiles for different clients, each with their own git configuration, SSH keys, and credentials:
 
 ```bash
-profile create client-acme
-profile create client-globex
-profile create client-initech
+shell-profiler create client-acme
+shell-profiler create client-globex
+shell-profiler create client-initech
 ```
 
 ## Advanced Configuration

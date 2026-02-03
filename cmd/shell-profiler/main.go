@@ -13,7 +13,7 @@ func main() {
 	cfg, err := config.LoadConfig()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error loading configuration: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Run 'profile init' to set custom paths\n")
+		fmt.Fprintf(os.Stderr, "Run 'shell-profiler init' to set custom paths\n")
 		os.Exit(1)
 	}
 

@@ -458,7 +458,7 @@ func (a *App) showHelp() {
 
 Manage workspace profiles with direnv for environment-specific configurations.
 
-Usage: profile <command> [arguments]
+Usage: shell-profiler <command> [arguments]
 
 Commands:
     init [options]             Initialize the profile manager configuration
@@ -511,7 +511,7 @@ Commands:
 
     info                        Show information about the current profile
     status                      Show direnv status
-    dotfiles <command> [name]    Manage profile dotfiles
+    dotfiles <command> [name]    Manage shell-profiler dotfiles
         Commands:
             list                    List all dotfiles in a profile
             edit                    Edit a dotfile interactively
@@ -529,63 +529,63 @@ Commands:
             remote <url>            Set or update remote URL
             status                  Show sync status
         Options:
-            --no-interactive         Disable interactive profile selection
+            --no-interactive         Disable interactive shell-profiler selection
         Note: Interactive selection by default if name is omitted (except status)
     help                        Show this help message
 
 Examples:
     # Create interactively (default behavior)
-    profile create my-project
+    shell-profiler create my-project
 
     # Create with specific options (disables interactive)
-    profile create my-project --git-name "John Doe" --git-email "john@example.com"
+    shell-profiler create my-project --git-name "John Doe" --git-email "john@example.com"
 
     # Force interactive even with some flags
-    profile create my-project --template work --interactive
+    shell-profiler create my-project --template work --interactive
 
-    # Interactive profile selection (default)
-    profile list
+    # Interactive shell-profiler selection (default)
+    shell-profiler list
 
     # List all profiles (non-interactive)
-    profile list --verbose
+    shell-profiler list --verbose
 
     # Select a profile to switch to
-    profile select
-    profile select my-project
+    shell-profiler select
+    shell-profiler select my-project
 
     # Delete a profile
-    profile delete old-project
+    shell-profiler delete old-project
 
     # Restore from backup (will list available backups)
-    profile restore my-project
-    profile restore my-project --backup-date 2024-11-29_14-30-45
-    profile restore my-project --file .envrc
+    shell-profiler restore my-project
+    shell-profiler restore my-project --backup-date 2024-11-29_14-30-45
+    shell-profiler restore my-project --file .envrc
 
-    # Show current profile info
-    profile info
+    # Show current shell-profiler info
+    shell-profiler info
 
     # Manage dotfiles (interactive by default)
-    profile dotfiles list              # Interactive profile selection
-    profile dotfiles list my-project  # List dotfiles in specific profile
-    profile dotfiles edit              # Interactive profile and file selection
-    profile dotfiles edit my-project   # Interactive file selection
-    profile dotfiles edit my-project .gitconfig  # Edit specific file
+    shell-profiler dotfiles list              # Interactive shell-profiler selection
+    shell-profiler dotfiles list my-project  # List dotfiles in specific profile
+    shell-profiler dotfiles edit              # Interactive profile and file selection
+    shell-profiler dotfiles edit my-project   # Interactive file selection
+    shell-profiler dotfiles edit my-project .gitconfig  # Edit specific file
 
     # Sync operations (interactive selection if name omitted)
-    profile sync pull              # Interactive selection
-    profile sync push              # Interactive selection
-    profile sync init my-project --remote https://github.com/user/my-project.git
-    profile sync pull my-project
-    profile sync push my-project
-    profile sync sync my-project
-    profile sync status my-project
+    shell-profiler sync pull              # Interactive selection
+    shell-profiler sync push              # Interactive selection
+    shell-profiler sync init my-project --remote https://github.com/user/my-project.git
+    shell-profiler sync pull my-project
+    shell-profiler sync push my-project
+    shell-profiler sync sync my-project
+    shell-profiler sync status my-project
 
 Getting Started:
-    1. Initialize:          profile init (or profile init --interactive)
-    2. Create a profile:    profile create my-project --interactive
+    1. Initialize:          shell-profiler init (or shell-profiler init --interactive)
+    2. Create a profile:    shell-profiler create my-project --interactive
     3. Navigate to it:      cd <profiles-dir>/my-project
     4. Allow direnv:        direnv allow
-    5. Verify:              profile info
+    5. Verify:              shell-profiler info
 
 For more information, see:
     - docs/QUICKSTART.md - Quick start guide
@@ -598,7 +598,7 @@ For more information, see:
 func (a *App) showSyncHelp() {
 	helpText := `Sync Operations for Profiles
 
-Usage: profile sync <command> [profile-name] [options]
+Usage: shell-profiler sync <command> [profile-name] [options]
 
 Commands:
     init [--remote <url>]    Initialize repository in profile directory
@@ -630,29 +630,29 @@ Commands:
 
 Examples:
     # Initialize repository
-    profile sync init my-project
+    shell-profiler sync init my-project
 
     # Initialize with remote
-    profile sync init my-project --remote https://github.com/user/my-project.git
+    shell-profiler sync init my-project --remote https://github.com/user/my-project.git
 
     # Pull latest changes
-    profile sync pull my-project
+    shell-profiler sync pull my-project
 
     # Push local changes
-    profile sync push my-project
+    shell-profiler sync push my-project
 
     # Sync (pull then push)
-    profile sync sync my-project
+    shell-profiler sync sync my-project
 
     # Set remote URL
-    profile sync remote my-project https://github.com/user/my-project.git
+    shell-profiler sync remote my-project https://github.com/user/my-project.git
 
     # Check sync status
-    profile sync status my-project
+    shell-profiler sync status my-project
 
 Notes:
     - Profiles are assumed to be in private repositories
-    - Local files created by 'profile create' are not affected
+    - Local files created by 'shell-profiler create' are not affected
     - Uncommitted changes are automatically committed before push
     - Sync will pull then push, handling missing remotes gracefully
 `
@@ -660,7 +660,7 @@ Notes:
 }
 
 func (a *App) showCreateHelp() {
-	helpText := `Usage: profile create <profile-name> [options]
+	helpText := `Usage: shell-profiler create <profile-name> [options]
 
 Create a new workspace profile with direnv configuration.
 
@@ -681,22 +681,22 @@ Options:
 
 Examples:
     # Create a basic profile
-    profile create my-project
+    shell-profiler create my-project
 
     # Create a work profile with git configuration
-    profile create acme-corp --template work \\
+    shell-profiler create acme-corp --template work \\
         --git-name "John Doe" \\
         --git-email "john.doe@acme.com"
 
     # Interactive setup
-    profile create my-project --interactive
+    shell-profiler create my-project --interactive
 
     # Preview what would be created
-    profile create my-project --dry-run
+    shell-profiler create my-project --dry-run
 
     # Create with git initialization
-    profile create my-project --init-git
-    profile create my-project --git-remote https://github.com/user/my-project.git
+    shell-profiler create my-project --init-git
+    shell-profiler create my-project --git-remote https://github.com/user/my-project.git
 
 Templates:
     personal    - Personal projects with minimal configuration
@@ -708,7 +708,7 @@ Templates:
 }
 
 func (a *App) showSelectHelp() {
-	helpText := `Usage: profile select [profile-name] [options]
+	helpText := `Usage: shell-profiler select [profile-name] [options]
 
 Select and switch to a workspace profile.
 
@@ -725,13 +725,13 @@ Options:
 
 Examples:
     # Interactive selection
-    profile select
+    shell-profiler select
 
     # Select specific profile
-    profile select my-project
+    shell-profiler select my-project
 
     # Select and allow direnv automatically
-    profile select my-project --allow-direnv
+    shell-profiler select my-project --allow-direnv
 
 After selection, you'll see instructions to activate the profile:
     cd <profile-path>
@@ -741,7 +741,7 @@ After selection, you'll see instructions to activate the profile:
 }
 
 func (a *App) showListHelp() {
-	helpText := `Usage: profile list [options]
+	helpText := `Usage: shell-profiler list [options]
 
 List all workspace profiles with their configurations.
 
@@ -754,16 +754,16 @@ Options:
     --no-interactive    Disable interactive mode
 
 Examples:
-    profile list                # Interactive selection menu (default)
-    profile list --verbose      # Show detailed information for all profiles
-    profile list --config       # Show git configuration for all profiles
-    profile list --no-interactive  # List all profiles without interactive menu
+    shell-profiler list                # Interactive selection menu (default)
+    shell-profiler list --verbose      # Show detailed information for all profiles
+    shell-profiler list --config       # Show git configuration for all profiles
+    shell-profiler list --no-interactive  # List all profiles without interactive menu
 `
 	fmt.Print(helpText)
 }
 
 func (a *App) showDeleteHelp() {
-	helpText := `Usage: profile delete [profile-name] [options]
+	helpText := `Usage: shell-profiler delete [profile-name] [options]
 
 Delete a workspace profile and all its files.
 
@@ -780,16 +780,16 @@ Options:
 
 Examples:
     # Interactive selection (default)
-    profile delete
+    shell-profiler delete
 
     # Delete a profile (with confirmation)
-    profile delete old-project
+    shell-profiler delete old-project
 
     # Delete without confirmation
-    profile delete old-project --force
+    shell-profiler delete old-project --force
 
     # Preview what would be deleted
-    profile delete old-project --dry-run
+    shell-profiler delete old-project --dry-run
 
 Safety:
     - You will be prompted for confirmation unless --force is used
@@ -800,7 +800,7 @@ Safety:
 }
 
 func (a *App) showDotfilesHelp() {
-	helpText := `Usage: profile dotfiles <command> [profile-name] [options]
+	helpText := `Usage: shell-profiler dotfiles <command> [profile-name] [options]
 
 Manage dotfiles in workspace profiles.
 
@@ -816,20 +816,20 @@ Options:
 
 Examples:
     # Interactive profile and file selection
-    profile dotfiles list
-    profile dotfiles edit
+    shell-profiler dotfiles list
+    shell-profiler dotfiles edit
 
     # List dotfiles in specific profile
-    profile dotfiles list my-project
+    shell-profiler dotfiles list my-project
 
-    # Edit specific file (interactive profile selection)
-    profile dotfiles edit --file .gitconfig
+    # Edit specific file (interactive shell-profiler selection)
+    shell-profiler dotfiles edit --file .gitconfig
 
     # Edit specific file in specific profile
-    profile dotfiles edit my-project .gitconfig
+    shell-profiler dotfiles edit my-project .gitconfig
 
     # Use custom editor
-    profile dotfiles edit my-project .envrc --editor code
+    shell-profiler dotfiles edit my-project .envrc --editor code
 
 Supported Dotfiles:
     .envrc                    - direnv configuration
@@ -857,7 +857,7 @@ Note: Interactive mode is enabled by default if profile or file name is omitted.
 }
 
 func (a *App) showUpdateHelp() {
-	helpText := `Usage: profile update [profile-name] [options]
+	helpText := `Usage: shell-profiler update [profile-name] [options]
 
 Update an existing profile with new features and configurations.
 
@@ -876,16 +876,16 @@ Options:
 
 Examples:
     # Interactive selection
-    profile update
+    shell-profiler update
 
     # Update specific profile
-    profile update my-project
+    shell-profiler update my-project
 
     # Preview changes without applying
-    profile update my-project --dry-run
+    shell-profiler update my-project --dry-run
 
     # Update without creating backup
-    profile update my-project --no-backup
+    shell-profiler update my-project --no-backup
 
 What gets updated:
     - Missing directories (.azure, .gcloud, etc.)
@@ -901,7 +901,7 @@ Backup:
 }
 
 func (a *App) showInitHelp() {
-	helpText := `Usage: profile init [options]
+	helpText := `Usage: shell-profiler init [options]
 
 Initialize the profile manager configuration.
 
@@ -917,16 +917,16 @@ Options:
 
 Examples:
     # Initialize with default path
-    profile init
+    shell-profiler init
 
     # Interactive initialization
-    profile init --interactive
+    shell-profiler init --interactive
 
     # Initialize with custom path
-    profile init --profiles-dir ~/my-profiles
+    shell-profiler init --profiles-dir ~/my-profiles
 
     # Overwrite existing configuration
-    profile init --force
+    shell-profiler init --force
 
 Configuration:
     The configuration is stored in ~/.profile-manager with the following format:

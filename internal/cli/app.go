@@ -3,6 +3,7 @@ package cli
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 
@@ -21,6 +22,16 @@ func NewApp(profilesDir string) *App {
 	}
 }
 
+// requireDirenv checks that direnv is installed and available on PATH.
+// Returns an error with installation instructions if not found.
+func (a *App) requireDirenv() error {
+	_, err := exec.LookPath("direnv")
+	if err != nil {
+		return fmt.Errorf("direnv is required but not found in PATH\n\n  Install direnv:\n    brew install direnv    # macOS/Linux (Homebrew)\n    apt install direnv     # Debian/Ubuntu\n\n  Then add the shell hook to your shell config:\n    eval \"$(direnv hook bash)\"   # ~/.bashrc\n    eval \"$(direnv hook zsh)\"    # ~/.zshrc\n\n  See https://direnv.net/ for more details")
+	}
+	return nil
+}
+
 func (a *App) Run(args []string) error {
 	if len(args) == 0 {
 		a.showHelp()
@@ -29,6 +40,16 @@ func (a *App) Run(args []string) error {
 
 	command := args[0]
 	args = args[1:]
+
+	// Commands that require direnv to be installed
+	switch command {
+	case "help", "--help", "-h", "init":
+		// These commands don't require direnv
+	default:
+		if err := a.requireDirenv(); err != nil {
+			return err
+		}
+	}
 
 	switch command {
 	case "init":
